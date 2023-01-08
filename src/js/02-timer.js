@@ -18,14 +18,10 @@ function convertMs(ms) {
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
-
-  // Remaining days
+  //remaining time
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
@@ -51,16 +47,20 @@ const options = {
 };
 flatpickr(calendar, options);
 
+//leading 0
+const leadingZero = e => {
+  return String(e).padStart(2, '0');
+};
 // countDown function
 const countDown = () => {
   setInterval(function () {
     const remainingTime = getSelectedDate - new Date().getTime();
     const convertion = convertMs(remainingTime);
 
-    daysRemaining.textContent = convertion.days;
-    hoursRemaining.textContent = convertion.hours;
-    minutesRemaining.textContent = convertion.minutes;
-    secondsRemaining.textContent = convertion.seconds;
+    daysRemaining.textContent = leadingZero(convertion.days);
+    hoursRemaining.textContent = leadingZero(convertion.hours);
+    minutesRemaining.textContent = leadingZero(convertion.minutes);
+    secondsRemaining.textContent = leadingZero(convertion.seconds);
   }, 1000);
 };
 
