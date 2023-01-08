@@ -1,20 +1,15 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
 const calendar = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
+const daysRemaining = document.querySelector('[data-days]');
+const hoursRemaining = document.querySelector('[data-hours]');
+const minutesRemaining = document.querySelector('[data-minutes]');
+const secondsRemaining = document.querySelector('[data-seconds]');
+startBtn.disabled = true;
 
-startBtn.addEventListener('click', () => {});
-
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    console.log(selectedDates[0]);
-  },
-};
-flatpickr(calendar, options);
+//convertion function
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -35,6 +30,37 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+let getSelectedDate;
+
+// options for flatpickr
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose(selectedDates) {
+    if (selectedDates[0] < new Date().getTime()) {
+      startBtn.disabled = true;
+      window.alert('Please choose a date in the future');
+    } else {
+      startBtn.disabled = false;
+      getSelectedDate = selectedDates[0].getTime();
+    }
+  },
+};
+flatpickr(calendar, options);
+
+// countDown function
+const countDown = () => {
+  setInterval(function () {
+    const remainingTime = getSelectedDate - new Date().getTime();
+    const convertion = convertMs(remainingTime);
+
+    daysRemaining.textContent = convertion.days;
+    hoursRemaining.textContent = convertion.hours;
+    minutesRemaining.textContent = convertion.minutes;
+    secondsRemaining.textContent = convertion.seconds;
+  }, 1000);
+};
+
+startBtn.addEventListener('click', countDown);
