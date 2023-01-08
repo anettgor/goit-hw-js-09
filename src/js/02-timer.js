@@ -10,7 +10,7 @@ const minutesRemaining = document.querySelector('[data-minutes]');
 const secondsRemaining = document.querySelector('[data-seconds]');
 startBtn.disabled = true;
 
-//convertion function
+//conversion function
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -54,17 +54,17 @@ const leadingZero = e => {
 const countDown = () => {
   setInterval(function () {
     const remainingTime = getSelectedDate - new Date().getTime();
-    const convertion = convertMs(remainingTime);
+    const conversion = convertMs(remainingTime);
 
     if (remainingTime <= 0) {
       clearInterval(countDown);
       startBtn.disabled = false;
     } else {
       startBtn.disabled = true;
-      daysRemaining.textContent = leadingZero(convertion.days);
-      hoursRemaining.textContent = leadingZero(convertion.hours);
-      minutesRemaining.textContent = leadingZero(convertion.minutes);
-      secondsRemaining.textContent = leadingZero(convertion.seconds);
+      daysRemaining.textContent = leadingZero(conversion.days);
+      hoursRemaining.textContent = leadingZero(conversion.hours);
+      minutesRemaining.textContent = leadingZero(conversion.minutes);
+      secondsRemaining.textContent = leadingZero(conversion.seconds);
     }
   }, 1000);
 };
