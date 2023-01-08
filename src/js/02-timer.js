@@ -37,7 +37,6 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] < new Date().getTime()) {
-      startBtn.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       startBtn.disabled = false;
@@ -57,10 +56,16 @@ const countDown = () => {
     const remainingTime = getSelectedDate - new Date().getTime();
     const convertion = convertMs(remainingTime);
 
-    daysRemaining.textContent = leadingZero(convertion.days);
-    hoursRemaining.textContent = leadingZero(convertion.hours);
-    minutesRemaining.textContent = leadingZero(convertion.minutes);
-    secondsRemaining.textContent = leadingZero(convertion.seconds);
+    if (remainingTime <= 0) {
+      clearInterval(countDown);
+      startBtn.disabled = false;
+    } else {
+      startBtn.disabled = true;
+      daysRemaining.textContent = leadingZero(convertion.days);
+      hoursRemaining.textContent = leadingZero(convertion.hours);
+      minutesRemaining.textContent = leadingZero(convertion.minutes);
+      secondsRemaining.textContent = leadingZero(convertion.seconds);
+    }
   }, 1000);
 };
 
