@@ -24,7 +24,7 @@ submitBtn.addEventListener('click', e => {
   let step = parseInt(stepInput.value);
   let amount = parseInt(amountInput.value);
 
-  for (let i = 0; i <= amount; i++) {
+  for (let i = 1; i <= amount; i++) {
     createPromise(i, firstDelay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
