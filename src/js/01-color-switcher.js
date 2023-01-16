@@ -18,7 +18,7 @@ const onStart = () => {
 const onStop = () => {
   clearInterval(timerId);
   startBtn.disabled = false;
-  //   stopBtn.disabled = true;
+    stopBtn.disabled = true;
 };
 startBtn.addEventListener('click', onStart);
 stopBtn.addEventListener('click', onStop);
